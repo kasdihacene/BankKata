@@ -42,7 +42,7 @@ public class AccountImplem implements Account {
             transactionCount.incrementNbTransactions();
 
         if (transactionAppender != null)
-            transactionAppender.append(new Transaction("06/02/2020", amount, withdrawal));
+            transactionAppender.append(Transaction.instance().withDate("06/02/2020").withAmount(amount).withTransactionType(withdrawal).build());
     }
 
     @Override

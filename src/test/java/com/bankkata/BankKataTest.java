@@ -55,8 +55,8 @@ public class BankKataTest {
     // we have to intercept every transaction and add it to list of transactions to print
     @Test
     public void deposit100AndWithdraw50ShouldPrintStatementsDepositAndWithdrawal() {
-        Transaction transactionDeposit = new Transaction("06/02/2020", 200, TransactionType.DEPOSIT);
-        Transaction transactionWithdrawal = new Transaction("06/02/2020", 100, TransactionType.WITHDRAWAL);
+        Transaction transactionDeposit = Transaction.instance().withDate("06/02/2020").withAmount(200).withTransactionType(TransactionType.DEPOSIT).build();
+        Transaction transactionWithdrawal = Transaction.instance().withDate("06/02/2020").withAmount(100).withTransactionType(TransactionType.WITHDRAWAL).build();
         List<Transaction> transactions = Arrays.asList(transactionDeposit, transactionWithdrawal);
 
         List<Transaction> addedTransactions = new ArrayList<>();
