@@ -14,12 +14,6 @@ public class BankKataTest {
     int expectedNbTransactions;
     private List<Transaction> transactionsToPrint;
 
-    @Test
-    public void init() {
-        assertThat(true).isTrue();
-    }
-
-
     // Deposit amount of money and inject lambda function to get the amount inserted
     @Test
     public void deposit100DollarsIntoAccount() {
@@ -27,7 +21,7 @@ public class BankKataTest {
         int amount = 100;
         TransactionDouble transactionDouble = insertedAmount -> this.expectedAmount = insertedAmount;
 
-        Account account = new AccountImplem(transactionDouble);
+        Account account = new AccountImplem(transactionDouble,null);
         account.deposit(amount);
 
         assertThat(this.expectedAmount).isEqualTo(amount);
@@ -38,7 +32,7 @@ public class BankKataTest {
         int amount = 100;
         TransactionDouble transactionDouble = insertedAmount -> this.expectedAmount = insertedAmount;
 
-        Account account = new AccountImplem(transactionDouble);
+        Account account = new AccountImplem(transactionDouble,null);
         account.withdraw(amount);
 
         assertThat(this.expectedAmount).isEqualTo(amount);
@@ -50,7 +44,7 @@ public class BankKataTest {
         int actualNbTransactions = 2;
 
         TransactionCount transactionCount = () -> expectedNbTransactions++;
-        Account account = new AccountImplem(transactionCount);
+        Account account = new AccountImplem(null, transactionCount);
 
         account.deposit(100);
         account.withdraw(50);
@@ -76,14 +70,14 @@ public class BankKataTest {
         account.withdraw(100);
         account.printStatement();
 
-        assertThat(transactions.toString()).isEqualTo(transactionsToPrint.toString());
+        assertThat(transactions).isEqualTo(transactionsToPrint);
 
     }
 
     /**
      *
      * TODO:
-     * - Refactor (keep main functions and constructors )
+     * - Refactor (keep main functions and constructors ) --> OK
      * - mock dates
      * - add balance requirement
      * - print with a reverse chronological order (recent to older)

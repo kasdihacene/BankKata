@@ -10,20 +10,17 @@ public class AccountImplem implements Account {
     private TransactionFetcher transactionFetcher;
     private TransactionPrinter transactionPrinter;
 
-    public AccountImplem(TransactionDouble transactionDouble) {
-        this.transactionDouble = transactionDouble;
-    }
-
-    public AccountImplem(TransactionCount transactionCount) {
-
-        this.transactionCount = transactionCount;
-    }
-
     public AccountImplem(TransactionAppender transactionAppender, TransactionFetcher transactionFetcher, TransactionPrinter transactionPrinter) {
 
         this.transactionAppender = transactionAppender;
         this.transactionFetcher = transactionFetcher;
         this.transactionPrinter = transactionPrinter;
+    }
+
+    public AccountImplem(TransactionDouble transactionDouble, TransactionCount transactionCount) {
+
+        this.transactionDouble = transactionDouble;
+        this.transactionCount = transactionCount;
     }
 
     @Override
