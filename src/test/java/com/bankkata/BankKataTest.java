@@ -79,4 +79,15 @@ public class BankKataTest {
         assertThat(transactions.toString()).isEqualTo(transactionsToPrint.toString());
 
     }
+
+    /**
+     *
+     * TODO:
+     * - Refactor (keep main functions and constructors )
+     * - mock dates
+     * - add balance requirement
+     * - print with a reverse chronological order (recent to older)
+     * - add integration tests
+     */
+
 }
