@@ -14,6 +14,7 @@ public class AccountImplem implements Account {
 
     @Override
     public void withdraw(int amount) {
+        transactionDouble.deposit(amount);
 
     }
 

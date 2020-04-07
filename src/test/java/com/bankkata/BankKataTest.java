@@ -26,4 +26,15 @@ public class BankKataTest {
         Assertions.assertThat(this.expectedAmount).isEqualTo(amount);
     }
 
+    @Test
+    public void withdraw100DollarsFromAccount(){
+        int amount = 100;
+        TransactionDouble transactionDouble = insertedAmount -> this.expectedAmount = insertedAmount ;
+
+        Account account = new AccountImplem(transactionDouble);
+        account.withdraw(amount);
+
+        Assertions.assertThat(this.expectedAmount).isEqualTo(amount);
+    }
+
 }
