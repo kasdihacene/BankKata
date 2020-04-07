@@ -12,6 +12,7 @@ public class BankKataTest {
 
     int expectedAmount;
     int expectedNbTransactions;
+    private List<Transaction> transactionsToPrint;
 
     @Test
     public void init() {
@@ -62,21 +63,20 @@ public class BankKataTest {
     public void deposit100AndWithdraw50ShouldPrintStatementsDepositAndWithdrawal() {
         Transaction transactionDeposit = new Transaction("06/02/2020", 200, TransactionType.DEPOSIT);
         Transaction transactionWithdrawal = new Transaction("06/02/2020", 100, TransactionType.WITHDRAWAL);
-        List<Transaction> transactions = new ArrayList<>();
-        transactions.add(transactionDeposit);
-        transactions.add(transactionWithdrawal);
+        List<Transaction> transactions = Arrays.asList(transactionDeposit, transactionWithdrawal);
 
-        List<Transaction> expectedTransactions = new ArrayList<>();
-        TransactionAppender transactionAppender = expectedTransactions::add;
-        TransactionFetcher transactionFetcher = () -> transactions ;
+        List<Transaction> addedTransactions = new ArrayList<>();
+        TransactionAppender transactionAppender = addedTransactions::add;
+        TransactionFetcher transactionFetcher = () -> addedTransactions;
 
-        Account account = new AccountImplem(transactionAppender,transactionFetcher);
+        TransactionPrinter transactionPrinter = passedTransactions -> this.transactionsToPrint = passedTransactions;
+        Account account = new AccountImplem(transactionAppender, transactionFetcher, transactionPrinter);
 
         account.deposit(200);
         account.withdraw(100);
         account.printStatement();
 
-        assertThat(transactions.toString()).isEqualTo(expectedTransactions.toString());
+        assertThat(transactions.toString()).isEqualTo(transactionsToPrint.toString());
 
     }
 }

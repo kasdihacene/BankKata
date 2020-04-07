@@ -1,10 +1,14 @@
 package com.bankkata;
 
+import java.util.List;
+
 public class AccountImplem implements Account {
 
     private TransactionDouble transactionDouble;
     private TransactionCount transactionCount;
     private TransactionAppender transactionAppender;
+    private TransactionFetcher transactionFetcher;
+    private TransactionPrinter transactionPrinter;
 
     public AccountImplem(TransactionDouble transactionDouble) {
         this.transactionDouble = transactionDouble;
@@ -15,9 +19,11 @@ public class AccountImplem implements Account {
         this.transactionCount = transactionCount;
     }
 
-    public AccountImplem(TransactionAppender transactionAppender, TransactionFetcher transactionFetcher) {
+    public AccountImplem(TransactionAppender transactionAppender, TransactionFetcher transactionFetcher, TransactionPrinter transactionPrinter) {
 
         this.transactionAppender = transactionAppender;
+        this.transactionFetcher = transactionFetcher;
+        this.transactionPrinter = transactionPrinter;
     }
 
     @Override
@@ -44,6 +50,9 @@ public class AccountImplem implements Account {
 
     @Override
     public void printStatement() {
-
+        // We have to fetch transactions
+        List<Transaction> fetchedTransactions = transactionFetcher.fetch();
+        // Print transactions
+        transactionPrinter.print(fetchedTransactions);
     }
 }
