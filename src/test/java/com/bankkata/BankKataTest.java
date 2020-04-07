@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 public class BankKataTest {
 
     int expectedAmount;
+    int expectedNbTransactions;
 
     @Test
     public void init() {
@@ -18,7 +19,7 @@ public class BankKataTest {
     public void deposit100DollarsIntoAccount() {
 
         int amount = 100;
-        TransactionDouble transactionDouble = insertedAmount -> this.expectedAmount = insertedAmount ;
+        TransactionDouble transactionDouble = insertedAmount -> this.expectedAmount = insertedAmount;
 
         Account account = new AccountImplem(transactionDouble);
         account.deposit(amount);
@@ -27,14 +28,28 @@ public class BankKataTest {
     }
 
     @Test
-    public void withdraw100DollarsFromAccount(){
+    public void withdraw100DollarsFromAccount() {
         int amount = 100;
-        TransactionDouble transactionDouble = insertedAmount -> this.expectedAmount = insertedAmount ;
+        TransactionDouble transactionDouble = insertedAmount -> this.expectedAmount = insertedAmount;
 
         Account account = new AccountImplem(transactionDouble);
         account.withdraw(amount);
 
         Assertions.assertThat(this.expectedAmount).isEqualTo(amount);
+    }
+
+
+    @Test
+    public void deposit100AndWithdraw50ShouldPrintTwoStatements() {
+        int actualNbTransactions = 2;
+
+        TransactionCount transactionCount = () -> expectedNbTransactions++;
+        Account account = new AccountImplem(transactionCount);
+
+        account.deposit(100);
+        account.withdraw(50);
+
+        Assertions.assertThat(expectedNbTransactions).isEqualTo(actualNbTransactions);
     }
 
 }
