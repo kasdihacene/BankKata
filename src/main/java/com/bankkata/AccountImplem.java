@@ -16,17 +16,18 @@ public class AccountImplem implements Account {
 
     @Override
     public void deposit(int amount) {
-        if (transactionDouble != null)
-            transactionDouble.deposit(amount);
-
-        if (transactionCount != null)
-            transactionCount.incrementNbTransactions();
+        apply(amount);
     }
+
 
     @Override
     public void withdraw(int amount) {
+        apply(amount);
+    }
+
+    private void apply(int amount) {
         if (transactionDouble != null)
-            transactionDouble.deposit(amount);
+            transactionDouble.transaction(amount);
 
         if (transactionCount != null)
             transactionCount.incrementNbTransactions();

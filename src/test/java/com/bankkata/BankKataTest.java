@@ -52,4 +52,5 @@ public class BankKataTest {
         Assertions.assertThat(expectedNbTransactions).isEqualTo(actualNbTransactions);
     }
 
+
 }

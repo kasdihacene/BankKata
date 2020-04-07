@@ -2,5 +2,5 @@ package com.bankkata;
 
 @FunctionalInterface
 public interface TransactionDouble {
-    public void deposit(int amount);
+    public void transaction(int amount);
 }
