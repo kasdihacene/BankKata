@@ -1,7 +1,12 @@
 package com.bankkata;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class BankKataTest {
 
@@ -10,7 +15,7 @@ public class BankKataTest {
 
     @Test
     public void init() {
-        Assertions.assertThat(true).isTrue();
+        assertThat(true).isTrue();
     }
 
 
@@ -24,7 +29,7 @@ public class BankKataTest {
         Account account = new AccountImplem(transactionDouble);
         account.deposit(amount);
 
-        Assertions.assertThat(this.expectedAmount).isEqualTo(amount);
+        assertThat(this.expectedAmount).isEqualTo(amount);
     }
 
     @Test
@@ -35,7 +40,7 @@ public class BankKataTest {
         Account account = new AccountImplem(transactionDouble);
         account.withdraw(amount);
 
-        Assertions.assertThat(this.expectedAmount).isEqualTo(amount);
+        assertThat(this.expectedAmount).isEqualTo(amount);
     }
 
 
@@ -49,8 +54,29 @@ public class BankKataTest {
         account.deposit(100);
         account.withdraw(50);
 
-        Assertions.assertThat(expectedNbTransactions).isEqualTo(actualNbTransactions);
+        assertThat(expectedNbTransactions).isEqualTo(actualNbTransactions);
     }
 
+    // we have to intercept every transaction and add it to list of transactions to print
+    @Test
+    public void deposit100AndWithdraw50ShouldPrintStatementsDepositAndWithdrawal() {
+        Transaction transactionDeposit = new Transaction("06/02/2020", 200, TransactionType.DEPOSIT);
+        Transaction transactionWithdrawal = new Transaction("06/02/2020", 100, TransactionType.WITHDRAWAL);
+        List<Transaction> transactions = new ArrayList<>();
+        transactions.add(transactionDeposit);
+        transactions.add(transactionWithdrawal);
 
+        List<Transaction> expectedTransactions = new ArrayList<>();
+        TransactionAppender transactionAppender = expectedTransactions::add;
+        TransactionFetcher transactionFetcher = () -> transactions ;
+
+        Account account = new AccountImplem(transactionAppender,transactionFetcher);
+
+        account.deposit(200);
+        account.withdraw(100);
+        account.printStatement();
+
+        assertThat(transactions.toString()).isEqualTo(expectedTransactions.toString());
+
+    }
 }
