@@ -1,5 +1,8 @@
 package com.bankkata;
 
+import com.bankkata.context.FoundResult;
+import com.bankkata.context.NotFoundResult;
+import com.bankkata.context.Result;
 import com.bankkata.domain.Article;
 import com.bankkata.domain.Price;
 import com.bankkata.domain.Quantity;
@@ -66,7 +69,7 @@ public class BasketTest {
     }
 
     @Test
-    public void shouldReturnZeroWhenNoArticlePresentInTheList(){
+    public void shouldReturnZeroWhenNoArticlePresentInTheList() {
         // GIVEN
         BigDecimal expected = new BigDecimal("0");
         // WHEN
@@ -76,7 +79,7 @@ public class BasketTest {
     }
 
     @Test
-    public void shouldCalculateAddedArticles(){
+    public void shouldCalculateAddedArticles() {
         // GIVEN
         BigDecimal expected = new BigDecimal("99.99");
         Price priceValue = new Price.Builder().withPrice("99.99").build();
@@ -90,35 +93,37 @@ public class BasketTest {
     }
 
     @Test
-    public void shouldReturnPriceWhenSearchArticleByName(){
+    public void shouldReturnPriceWhenSearchArticleByName() {
         // GIVEN
         Price priceValue = new Price.Builder().withPrice("99.99").build();
+        Result foundResult = new FoundResult(new Price.Builder().withPrice("99.99").build());
         String articleName = "SNICKERS";
         Article snickers = new Article(articleName, priceValue);
         BasketCalculator basketCalculator = BasketCalculator.instance();
         // WHEN
         basketCalculator.add(snickers);
-        Price price = basketCalculator.fetch(articleName);
+        Result result = basketCalculator.fetch(articleName);
         // THEN
-        Assertions.assertThat(priceValue).isEqualTo(price);
+        Assertions.assertThat(foundResult).isEqualTo(result);
     }
 
     @Test
-    public void shouldReturnNullWhenNoArticleWithGivenNameFound(){
+    public void shouldReturnNullWhenNoArticleWithGivenNameFound() {
         // GIVEN
         Price priceValue = new Price.Builder().withPrice("99.99").build();
+        Result notFoundResult = new NotFoundResult("UNKNOWN");
         String articleName = "SNICKERS";
         Article snickers = new Article(articleName, priceValue);
         BasketCalculator basketCalculator = BasketCalculator.instance();
         // WHEN
         basketCalculator.add(snickers);
-        Price price = basketCalculator.fetch("UNKNOWN");
+        Result found = basketCalculator.fetch("UNKNOWN");
         // THEN
-        Assertions.assertThat(price).isNull();
+        Assertions.assertThat(notFoundResult).isEqualTo(found);
     }
 
     @Test
-    public void shouldRemoveArticleWhenHavingTheArticleNameInTheList(){
+    public void shouldRemoveArticleWhenHavingTheArticleNameInTheList() {
         // GIVEN
         Price priceValue = new Price.Builder().withPrice("99.99").build();
         String articleName = "SNICKERS";
@@ -133,7 +138,7 @@ public class BasketTest {
     }
 
     @Test
-    public void shouldRemoveOneItemArticleWhenHavingTheArticleNameInTheListWithMoreThanOneQuantity(){
+    public void shouldRemoveOneItemArticleWhenHavingTheArticleNameInTheListWithMoreThanOneQuantity() {
         // GIVEN
         BigDecimal expectedTotal = BigDecimal.valueOf(40);
         Price priceValue = new Price.Builder().withPrice("20").build();
@@ -149,7 +154,7 @@ public class BasketTest {
     }
 
     @Test
-    public void shouldRemoveOneItemArticleWhenHavingTheArticleNameInTheListWithFourQuantities(){
+    public void shouldRemoveOneItemArticleWhenHavingTheArticleNameInTheListWithFourQuantities() {
         // GIVEN
         BigDecimal expectedTotal = BigDecimal.valueOf(66);
         Price priceValue = new Price.Builder().withPrice("22").build();
@@ -165,7 +170,7 @@ public class BasketTest {
     }
 
     @Test
-    public void shouldReturnZeroWhenCalculatingEmptyListArticlesAfterAllRemoving(){
+    public void shouldReturnZeroWhenCalculatingEmptyListArticlesAfterAllRemoving() {
         // GIVEN
         BigDecimal expectedTotal = BigDecimal.valueOf(0);
         Price priceValue = new Price.Builder().withPrice("22").build();
