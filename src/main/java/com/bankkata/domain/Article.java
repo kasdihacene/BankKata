@@ -1,18 +1,14 @@
 package com.bankkata.domain;
 
+import com.bankkata.visitor.ArticleVisitor;
+
 import java.math.BigDecimal;
 
-public class Article {
+public abstract class Article {
 
     private final String name;
     private final Price price;
     private final Quantity quantity;
-
-    public Article(String name, Price price) {
-        this.name = name;
-        this.price = price;
-        this.quantity = new Quantity.Builder().withQuantity(1).build();
-    }
 
     public Article(String name, Price price, Quantity quantity) {
         this.name = name;
@@ -43,4 +39,6 @@ public class Article {
     public boolean hasQuantity() {
         return quantity.containsItems();
     }
+
+    public abstract void accept(ArticleVisitor visitor);
 }

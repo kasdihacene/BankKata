@@ -1,5 +1,8 @@
 package com.bankkata;
 
+import com.bankkata.articles.Bots;
+import com.bankkata.articles.Shoes;
+import com.bankkata.articles.Snickers;
 import com.bankkata.context.FoundResult;
 import com.bankkata.context.NotFoundResult;
 import com.bankkata.context.Result;
@@ -22,7 +25,7 @@ public class BasketTest {
         BigDecimal expected = new BigDecimal("99.99");
         // WHEN
         Price priceValue = new Price.Builder().withPrice("99.99").build();
-        final Article snickers = new Article("SNICKERS", priceValue);
+        final Article snickers = new Snickers("SNICKERS", priceValue, new Quantity.Builder().withQuantity(1).build());
         BigDecimal total = BasketCalculator.instance().calculate(Collections.singletonList(snickers));
         // THEN
         Assertions.assertThat(expected).isEqualTo(total);
@@ -35,7 +38,7 @@ public class BasketTest {
         Quantity quantity = Quantity.builder().withQuantity(2).build();
         // WHEN
         Price priceValue = new Price.Builder().withPrice("20.25").build();
-        Article snickers = new Article("SNICKERS", priceValue, quantity);
+        Article snickers = new Snickers("SNICKERS", priceValue, quantity);
         BigDecimal total = BasketCalculator.instance().calculate(Collections.singletonList(snickers));
         // THEN
         Assertions.assertThat(expected).isEqualTo(total);
@@ -48,8 +51,8 @@ public class BasketTest {
         Quantity quantity = Quantity.builder().withQuantity(2).build();
         // WHEN
         Price priceValue = new Price.Builder().withPrice("20.25").build();
-        Article snickers = new Article("SNICKERS", priceValue, quantity);
-        Article shoes = new Article("SHOES", priceValue, quantity);
+        Article snickers = new Snickers("SNICKERS", priceValue, quantity);
+        Article shoes = new Shoes("SHOES", priceValue, quantity);
         List<Article> articles = Arrays.asList(snickers, shoes);
         BigDecimal total = BasketCalculator.instance().calculate(articles);
         // THEN
@@ -61,7 +64,7 @@ public class BasketTest {
         // GIVEN
         BigDecimal expected = new BigDecimal("99.99");
         Price priceValue = new Price.Builder().withPrice("99.99").build();
-        Article snickers = new Article("SNICKERS", priceValue);
+        Article snickers = new Snickers("SNICKERS", priceValue, new Quantity.Builder().withQuantity(1).build());
         // WHEN
         BigDecimal total = BasketCalculator.instance().calculate(Collections.singletonList(snickers));
         // THEN
@@ -83,7 +86,7 @@ public class BasketTest {
         // GIVEN
         BigDecimal expected = new BigDecimal("99.99");
         Price priceValue = new Price.Builder().withPrice("99.99").build();
-        Article snickers = new Article("SNICKERS", priceValue);
+        Article snickers = new Snickers("SNICKERS", priceValue, new Quantity.Builder().withQuantity(1).build());
         BasketCalculator basketCalculator = BasketCalculator.instance();
         // WHEN
         basketCalculator.add(snickers);
@@ -98,7 +101,7 @@ public class BasketTest {
         Price priceValue = new Price.Builder().withPrice("99.99").build();
         Result foundResult = new FoundResult(new Price.Builder().withPrice("99.99").build());
         String articleName = "SNICKERS";
-        Article snickers = new Article(articleName, priceValue);
+        Article snickers = new Snickers(articleName, priceValue, new Quantity.Builder().withQuantity(1).build());
         BasketCalculator basketCalculator = BasketCalculator.instance();
         // WHEN
         basketCalculator.add(snickers);
@@ -113,7 +116,7 @@ public class BasketTest {
         Price priceValue = new Price.Builder().withPrice("99.99").build();
         Result notFoundResult = new NotFoundResult("UNKNOWN");
         String articleName = "SNICKERS";
-        Article snickers = new Article(articleName, priceValue);
+        Snickers snickers = new Snickers(articleName, priceValue, new Quantity.Builder().withQuantity(1).build());
         BasketCalculator basketCalculator = BasketCalculator.instance();
         // WHEN
         basketCalculator.add(snickers);
@@ -127,7 +130,7 @@ public class BasketTest {
         // GIVEN
         Price priceValue = new Price.Builder().withPrice("99.99").build();
         String articleName = "SNICKERS";
-        Article snickers = new Article(articleName, priceValue);
+        Article snickers = new Snickers(articleName, priceValue, new Quantity.Builder().withQuantity(1).build());
         BasketCalculator basketCalculator = BasketCalculator.instance();
         // WHEN
         basketCalculator.add(snickers);
@@ -143,7 +146,7 @@ public class BasketTest {
         BigDecimal expectedTotal = BigDecimal.valueOf(40);
         Price priceValue = new Price.Builder().withPrice("20").build();
         String articleName = "SNICKERS";
-        Article snickers = new Article(articleName, priceValue, Quantity.builder().withQuantity(3).build());
+        Article snickers = new Snickers(articleName, priceValue, Quantity.builder().withQuantity(3).build());
         BasketCalculator basketCalculator = BasketCalculator.instance();
         // WHEN
         basketCalculator.add(snickers);
@@ -159,7 +162,7 @@ public class BasketTest {
         BigDecimal expectedTotal = BigDecimal.valueOf(66);
         Price priceValue = new Price.Builder().withPrice("22").build();
         String articleName = "BOTS";
-        Article bots = new Article(articleName, priceValue, Quantity.builder().withQuantity(4).build());
+        Bots bots = new Bots(articleName, priceValue, Quantity.builder().withQuantity(4).build());
         BasketCalculator basketCalculator = BasketCalculator.instance();
         // WHEN
         basketCalculator.add(bots);
@@ -175,7 +178,7 @@ public class BasketTest {
         BigDecimal expectedTotal = BigDecimal.valueOf(0);
         Price priceValue = new Price.Builder().withPrice("22").build();
         String articleName = "BOTS";
-        Article bots = new Article(articleName, priceValue, Quantity.builder().withQuantity(2).build());
+        Article bots = new Bots(articleName, priceValue, Quantity.builder().withQuantity(2).build());
         BasketCalculator basketCalculator = BasketCalculator.instance();
         // WHEN
         basketCalculator.add(bots);
