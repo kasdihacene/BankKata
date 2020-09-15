@@ -5,13 +5,15 @@ import com.bankkata.domain.Price;
 import com.bankkata.domain.Quantity;
 import com.bankkata.visitor.ArticleVisitor;
 
+import java.math.BigDecimal;
+
 public class Snickers extends Article {
     public Snickers(String articleName, Price priceValue, Quantity quantity) {
         super(articleName,priceValue,quantity);
     }
 
     @Override
-    public void accept(ArticleVisitor visitor) {
-        visitor.visitTotal(this);
+    public BigDecimal accept(ArticleVisitor visitor) {
+        return visitor.visitTotal(this);
     }
 }

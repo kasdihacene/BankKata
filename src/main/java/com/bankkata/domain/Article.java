@@ -40,5 +40,5 @@ public abstract class Article {
         return quantity.containsItems();
     }
 
-    public abstract void accept(ArticleVisitor visitor);
+    public abstract BigDecimal accept(ArticleVisitor visitor);
 }

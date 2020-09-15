@@ -2,6 +2,8 @@ package com.bankkata;
 
 import com.bankkata.context.Result;
 import com.bankkata.domain.Article;
+import com.bankkata.visitor.ArticleVisitor;
+import com.bankkata.visitor.ConcreteVisitor;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -22,9 +24,10 @@ public class BasketCalculator {
     }
 
     private BigDecimal compute(List<Article> articles) {
+        ArticleVisitor visitor = new ConcreteVisitor();
         return articles
                 .stream()
-                .map(Article::calculate)
+                .map(article -> article.accept(visitor))
                 .reduce(BigDecimal::add)
                 .orElse(BigDecimal.ZERO);
     }

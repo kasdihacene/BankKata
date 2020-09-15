@@ -4,9 +4,11 @@ import com.bankkata.articles.Bots;
 import com.bankkata.articles.Shoes;
 import com.bankkata.articles.Snickers;
 
+import java.math.BigDecimal;
+
 public interface ArticleVisitor {
 
-    public void visitTotal(Shoes shoes);
-    public void visitTotal(Snickers snickers);
-    public void visitTotal(Bots bots);
+    public BigDecimal visitTotal(Shoes shoes);
+    public BigDecimal visitTotal(Snickers snickers);
+    public BigDecimal visitTotal(Bots bots);
 }
