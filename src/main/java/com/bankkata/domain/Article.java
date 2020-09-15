@@ -31,4 +31,16 @@ public class Article {
     public Price price() {
         return price;
     }
+
+    public Article updateQuantity(String articleName) {
+        boolean sameItemCode = this.hasName(articleName);
+        if (sameItemCode) {
+            quantity.decrease();
+        }
+        return this;
+    }
+
+    public boolean hasQuantity() {
+        return quantity.containsItems();
+    }
 }

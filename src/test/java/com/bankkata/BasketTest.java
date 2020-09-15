@@ -13,13 +13,6 @@ import java.util.List;
 
 public class BasketTest {
 
-    private BasketTest() {
-    }
-
-    public static BasketTest factory() {
-        return new BasketTest();
-    }
-
     @Test
     public void shouldCalculateTotalBasketWhenHavingOneArticle() {
         // GIVEN
@@ -36,7 +29,7 @@ public class BasketTest {
     public void shouldCalculateBasketWhenHavingMoreThanOneArticle() {
         // GIVEN
         BigDecimal expected = new BigDecimal("40.50");
-        Quantity quantity = new Quantity.Builder().withQuantity(2).build();
+        Quantity quantity = Quantity.builder().withQuantity(2).build();
         // WHEN
         Price priceValue = new Price.Builder().withPrice("20.25").build();
         Article snickers = new Article("SNICKERS", priceValue, quantity);
@@ -49,7 +42,7 @@ public class BasketTest {
     public void shouldCalculateBasketWhenHavingManyArticlesAndManyQuantities() {
         // GIVEN
         BigDecimal expected = new BigDecimal("81.00");
-        Quantity quantity = new Quantity.Builder().withQuantity(2).build();
+        Quantity quantity = Quantity.builder().withQuantity(2).build();
         // WHEN
         Price priceValue = new Price.Builder().withPrice("20.25").build();
         Article snickers = new Article("SNICKERS", priceValue, quantity);
@@ -122,6 +115,71 @@ public class BasketTest {
         Price price = basketCalculator.fetch("UNKNOWN");
         // THEN
         Assertions.assertThat(price).isNull();
+    }
+
+    @Test
+    public void shouldRemoveArticleWhenHavingTheArticleNameInTheList(){
+        // GIVEN
+        Price priceValue = new Price.Builder().withPrice("99.99").build();
+        String articleName = "SNICKERS";
+        Article snickers = new Article(articleName, priceValue);
+        BasketCalculator basketCalculator = BasketCalculator.instance();
+        // WHEN
+        basketCalculator.add(snickers);
+        basketCalculator.remove("SNICKERS");
+        BigDecimal calculate = basketCalculator.calculate();
+        // THEN
+        Assertions.assertThat(calculate).isEqualTo(BigDecimal.valueOf(0));
+    }
+
+    @Test
+    public void shouldRemoveOneItemArticleWhenHavingTheArticleNameInTheListWithMoreThanOneQuantity(){
+        // GIVEN
+        BigDecimal expectedTotal = BigDecimal.valueOf(40);
+        Price priceValue = new Price.Builder().withPrice("20").build();
+        String articleName = "SNICKERS";
+        Article snickers = new Article(articleName, priceValue, Quantity.builder().withQuantity(3).build());
+        BasketCalculator basketCalculator = BasketCalculator.instance();
+        // WHEN
+        basketCalculator.add(snickers);
+        basketCalculator.remove("SNICKERS");
+        BigDecimal calculate = basketCalculator.calculate();
+        // THEN
+        Assertions.assertThat(calculate).isEqualTo(expectedTotal);
+    }
+
+    @Test
+    public void shouldRemoveOneItemArticleWhenHavingTheArticleNameInTheListWithFourQuantities(){
+        // GIVEN
+        BigDecimal expectedTotal = BigDecimal.valueOf(66);
+        Price priceValue = new Price.Builder().withPrice("22").build();
+        String articleName = "BOTS";
+        Article bots = new Article(articleName, priceValue, Quantity.builder().withQuantity(4).build());
+        BasketCalculator basketCalculator = BasketCalculator.instance();
+        // WHEN
+        basketCalculator.add(bots);
+        basketCalculator.remove("BOTS");
+        BigDecimal calculate = basketCalculator.calculate();
+        // THEN
+        Assertions.assertThat(calculate).isEqualTo(expectedTotal);
+    }
+
+    @Test
+    public void shouldReturnZeroWhenCalculatingEmptyListArticlesAfterAllRemoving(){
+        // GIVEN
+        BigDecimal expectedTotal = BigDecimal.valueOf(0);
+        Price priceValue = new Price.Builder().withPrice("22").build();
+        String articleName = "BOTS";
+        Article bots = new Article(articleName, priceValue, Quantity.builder().withQuantity(2).build());
+        BasketCalculator basketCalculator = BasketCalculator.instance();
+        // WHEN
+        basketCalculator.add(bots);
+        basketCalculator.remove("BOTS");
+        basketCalculator.remove("BOTS");
+        basketCalculator.remove("BOTS");
+        BigDecimal calculate = basketCalculator.calculate();
+        // THEN
+        Assertions.assertThat(calculate).isEqualTo(expectedTotal);
     }
 
 }

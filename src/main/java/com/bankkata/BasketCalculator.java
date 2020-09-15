@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class BasketCalculator {
 
@@ -45,4 +46,11 @@ public class BasketCalculator {
         return found.map(Article::price).orElse(null);
 
     }
+
+    public void remove(String articleName) {
+        articles = articles.stream()
+                .map(article -> article.updateQuantity(articleName))
+                .filter(Article::hasQuantity).collect(Collectors.toList());
+    }
+
 }
