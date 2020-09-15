@@ -1,6 +1,7 @@
 package com.bankkata;
 
 import com.bankkata.domain.Article;
+import com.bankkata.domain.Price;
 import com.bankkata.domain.Quantity;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -14,18 +15,22 @@ public class BasketTest {
         // GIVEN
         BigDecimal expected = new BigDecimal("99.99");
         // WHEN
-        BigDecimal total = BasketCalculator.calculate(new Article("SNICKERS","99.99"));
+        String price = "99.99";
+        Price priceValue = new Price(price);
+                BigDecimal total = BasketCalculator.calculate(new Article("SNICKERS", priceValue));
         // THEN
         Assertions.assertThat(expected).isEqualTo(total);
     }
 
     @Test
-    public void shouldCalculateBasketWhenHavingMoreThanOneArticle(){
+    public void shouldCalculateBasketWhenHavingMoreThanOneArticle() {
         // GIVEN
         BigDecimal expected = new BigDecimal("40.50");
         Quantity quantity = new Quantity(2);
         // WHEN
-        Article snickers = new Article("SNICKERS", "20.25",quantity);
+        String price = "20.25";
+        Price priceValue = new Price(price);
+        Article snickers = new Article("SNICKERS", priceValue, quantity);
         BigDecimal total = BasketCalculator.calculate(snickers);
         // THEN
         Assertions.assertThat(expected).isEqualTo(total);
