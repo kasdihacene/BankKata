@@ -19,7 +19,8 @@ public class BasketTest {
         BigDecimal expected = new BigDecimal("99.99");
         // WHEN
         Price priceValue = new Price.Builder().withPrice("99.99").build();
-        BigDecimal total = BasketCalculator.calculate(new Article("SNICKERS", priceValue));
+        final Article snickers = new Article("SNICKERS", priceValue);
+        BigDecimal total = BasketCalculator.calculate(Arrays.asList(snickers));
         // THEN
         Assertions.assertThat(expected).isEqualTo(total);
     }
@@ -32,7 +33,7 @@ public class BasketTest {
         // WHEN
         Price priceValue = new Price.Builder().withPrice("20.25").build();
         Article snickers = new Article("SNICKERS", priceValue, quantity);
-        BigDecimal total = BasketCalculator.calculate(snickers);
+        BigDecimal total = BasketCalculator.calculate(Arrays.asList(snickers));
         // THEN
         Assertions.assertThat(expected).isEqualTo(total);
     }

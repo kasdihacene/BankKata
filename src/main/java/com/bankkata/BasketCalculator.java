@@ -7,11 +7,11 @@ import java.util.List;
 
 public class BasketCalculator {
 
-    public static BigDecimal calculate(Article article) {
-        return article.calculate();
+    public static BigDecimal calculate(List<Article> articles) {
+        return compute(articles);
     }
 
-    public static BigDecimal calculate(List<Article> articles) {
+    private static BigDecimal compute(List<Article> articles) {
         return articles.stream().map(Article::calculate).reduce(BigDecimal::add).orElse(BigDecimal.ZERO);
     }
 }
