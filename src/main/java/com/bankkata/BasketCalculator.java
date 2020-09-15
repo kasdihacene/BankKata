@@ -1,10 +1,12 @@
 package com.bankkata;
 
 import com.bankkata.domain.Article;
+import com.bankkata.domain.Price;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class BasketCalculator {
 
@@ -36,5 +38,11 @@ public class BasketCalculator {
 
     public void add(Article snickers) {
         this.articles.add(snickers);
+    }
+
+    public Price fetch(String articleName) {
+        Optional<Article> found = articles.stream().filter(article -> article.hasName(articleName)).findFirst();
+        return found.map(Article::price).orElse(null);
+
     }
 }

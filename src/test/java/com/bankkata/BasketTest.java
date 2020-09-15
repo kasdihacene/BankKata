@@ -96,4 +96,32 @@ public class BasketTest {
         Assertions.assertThat(expected).isEqualTo(total);
     }
 
+    @Test
+    public void shouldReturnPriceWhenSearchArticleByName(){
+        // GIVEN
+        Price priceValue = new Price.Builder().withPrice("99.99").build();
+        String articleName = "SNICKERS";
+        Article snickers = new Article(articleName, priceValue);
+        BasketCalculator basketCalculator = BasketCalculator.instance();
+        // WHEN
+        basketCalculator.add(snickers);
+        Price price = basketCalculator.fetch(articleName);
+        // THEN
+        Assertions.assertThat(priceValue).isEqualTo(price);
+    }
+
+    @Test
+    public void shouldReturnNullWhenNoArticleWithGivenNameFound(){
+        // GIVEN
+        Price priceValue = new Price.Builder().withPrice("99.99").build();
+        String articleName = "SNICKERS";
+        Article snickers = new Article(articleName, priceValue);
+        BasketCalculator basketCalculator = BasketCalculator.instance();
+        // WHEN
+        basketCalculator.add(snickers);
+        Price price = basketCalculator.fetch("UNKNOWN");
+        // THEN
+        Assertions.assertThat(price).isNull();
+    }
+
 }

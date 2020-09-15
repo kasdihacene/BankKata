@@ -23,4 +23,12 @@ public class Article {
     public BigDecimal calculate() {
         return price.multiply(quantity);
     }
+
+    public boolean hasName(String articleName) {
+        return name.equalsIgnoreCase(articleName);
+    }
+
+    public Price price() {
+        return price;
+    }
 }
