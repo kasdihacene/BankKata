@@ -11,7 +11,7 @@ public class Article {
     public Article(String name, Price price) {
         this.name = name;
         this.price = price;
-        this.quantity = new Quantity(1);
+        this.quantity = new Quantity.Builder().withQuantity(1).build();
     }
 
     public Article(String name, Price price, Quantity quantity) {

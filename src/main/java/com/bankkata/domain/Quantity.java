@@ -6,15 +6,24 @@ public class Quantity {
 
     private int quantity;
 
-    public Quantity(int quantity) {
+    private Quantity(int quantity) {
         this.quantity = quantity;
-    }
-
-    public int getQuantity() {
-        return quantity;
     }
 
     public BigDecimal multiply(String price) {
         return new BigDecimal(price).multiply(BigDecimal.valueOf(quantity));
+    }
+
+    public static class Builder {
+        private int quantity;
+
+        public Builder withQuantity(int quantity) {
+            this.quantity = quantity;
+            return this;
+        }
+
+        public Quantity build() {
+            return new Quantity(quantity);
+        }
     }
 }

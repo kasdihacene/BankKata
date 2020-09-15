@@ -15,9 +15,8 @@ public class BasketTest {
         // GIVEN
         BigDecimal expected = new BigDecimal("99.99");
         // WHEN
-        String price = "99.99";
-        Price priceValue = new Price(price);
-                BigDecimal total = BasketCalculator.calculate(new Article("SNICKERS", priceValue));
+        Price priceValue = new Price.Builder().withPrice("99.99").build();
+        BigDecimal total = BasketCalculator.calculate(new Article("SNICKERS", priceValue));
         // THEN
         Assertions.assertThat(expected).isEqualTo(total);
     }
@@ -26,10 +25,9 @@ public class BasketTest {
     public void shouldCalculateBasketWhenHavingMoreThanOneArticle() {
         // GIVEN
         BigDecimal expected = new BigDecimal("40.50");
-        Quantity quantity = new Quantity(2);
+        Quantity quantity = new Quantity.Builder().withQuantity(2).build();
         // WHEN
-        String price = "20.25";
-        Price priceValue = new Price(price);
+        Price priceValue = new Price.Builder().withPrice("20.25").build();
         Article snickers = new Article("SNICKERS", priceValue, quantity);
         BigDecimal total = BasketCalculator.calculate(snickers);
         // THEN
