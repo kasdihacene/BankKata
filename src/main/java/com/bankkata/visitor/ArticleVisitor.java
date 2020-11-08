@@ -8,7 +8,9 @@ import java.math.BigDecimal;
 
 public interface ArticleVisitor {
 
-    public BigDecimal visitTotal(Shoes shoes);
-    public BigDecimal visitTotal(Snickers snickers);
-    public BigDecimal visitTotal(Bots bots);
+    BigDecimal visitTotal(Shoes shoes);
+
+    BigDecimal visitTotal(Snickers snickers);
+
+    BigDecimal visitTotal(Bots bots);
 }
